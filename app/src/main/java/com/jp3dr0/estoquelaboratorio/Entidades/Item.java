@@ -1,8 +1,9 @@
-package com.jp3dr0.estoquelaboratorio;
+package com.jp3dr0.estoquelaboratorio.Entidades;
 
 import android.content.Context;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -57,21 +58,24 @@ public class Item extends AbstractItem<Item, Item.ViewHolder> {
     @Override
     public void bindView(ViewHolder holder, List<Object> payloads) {
         super.bindView(holder, payloads);
-
+        Log.d("LOG", "bindView Item");
         Context ctx = holder.itemView.getContext();
+
+        title = "Titulo";
+        desc = "Desc";
 
         holder.title.setText(title);
         holder.desc.setText(desc);
         holder.featuredImage.setImageBitmap(null);
 
         //set the background for the item
-        int color = UIUtils.getThemeColor(ctx, R.attr.colorPrimary);
+        int color = UIUtils.getThemeColor(ctx, com.jp3dr0.estoquelaboratorio.R.attr.colorPrimary);
         holder.card_layout.setForeground(FastAdapterUIUtils.getSelectablePressedBackground(ctx, FastAdapterUIUtils.adjustAlpha(color, 100), 50, true));
 
         //load glide
         Glide.clear(holder.featuredImage);
         Glide.with(ctx).load( featuredImage )
-                .animate(R.anim.alpha_on)
+                .animate(com.jp3dr0.estoquelaboratorio.R.anim.alpha_on)
                 .into(holder.featuredImage);
     }
 
@@ -97,7 +101,7 @@ public class Item extends AbstractItem<Item, Item.ViewHolder> {
 
     @Override
     public int getLayoutRes() {
-        return R.layout.item;
+        return com.jp3dr0.estoquelaboratorio.R.layout.item;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -111,11 +115,11 @@ public class Item extends AbstractItem<Item, Item.ViewHolder> {
         public ViewHolder(View itemView) {
             super(itemView);
 
-            this.featuredImage = (ImageView) itemView.findViewById(R.id.featuredImage);
-            this.title = (TextView) itemView.findViewById(R.id.title);
-            this.desc = (TextView) itemView.findViewById(R.id.desc);
-            this.btnLink = (Button) itemView.findViewById(R.id.btnLink);
-            this.card_layout = (ConstraintLayout) itemView.findViewById(R.id.card_layout);
+            this.featuredImage = (ImageView) itemView.findViewById(com.jp3dr0.estoquelaboratorio.R.id.featuredImage);
+            this.title = (TextView) itemView.findViewById(com.jp3dr0.estoquelaboratorio.R.id.title);
+            this.desc = (TextView) itemView.findViewById(com.jp3dr0.estoquelaboratorio.R.id.desc);
+            this.btnLink = (Button) itemView.findViewById(com.jp3dr0.estoquelaboratorio.R.id.btnLink);
+            this.card_layout = (ConstraintLayout) itemView.findViewById(com.jp3dr0.estoquelaboratorio.R.id.card_layout);
 
             //optimization to preset the correct height for our device
             int screenWidth = itemView.getContext().getResources().getDisplayMetrics().widthPixels;

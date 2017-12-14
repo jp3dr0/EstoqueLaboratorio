@@ -1,4 +1,4 @@
-package com.jp3dr0.estoquelaboratorio;
+package com.jp3dr0.estoquelaboratorio.Fragments;
 
 
 import android.os.Bundle;
@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.jp3dr0.estoquelaboratorio.LoginActivity;
 
 
 public class CadastrarFragment extends Fragment {
@@ -31,12 +33,12 @@ public class CadastrarFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_cadastrar, container, false);
-        btnProximo = (Button) view.findViewById(R.id.btnProximo);
-        etNome = (EditText) view.findViewById(R.id.etNome);
-        etLogin = (EditText) view.findViewById(R.id.etLogin);
-        etSenha = (EditText) view.findViewById(R.id.etSenha);
-        etEmail = (EditText) view.findViewById(R.id.etEmail);
+        View view = inflater.inflate(com.jp3dr0.estoquelaboratorio.R.layout.fragment_cadastrar, container, false);
+        btnProximo = (Button) view.findViewById(com.jp3dr0.estoquelaboratorio.R.id.btnProximo);
+        etNome = (EditText) view.findViewById(com.jp3dr0.estoquelaboratorio.R.id.etNome);
+        etLogin = (EditText) view.findViewById(com.jp3dr0.estoquelaboratorio.R.id.etLogin);
+        etSenha = (EditText) view.findViewById(com.jp3dr0.estoquelaboratorio.R.id.etSenha);
+        etEmail = (EditText) view.findViewById(com.jp3dr0.estoquelaboratorio.R.id.etEmail);
 
         btnProximo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,7 +46,7 @@ public class CadastrarFragment extends Fragment {
                 LoginActivity activity = (LoginActivity) getActivity();
                 FragmentManager fm = activity.getSupportFragmentManager();
                 FragmentTransaction ft = fm.beginTransaction();
-                ft.replace(R.id.fragment_container, new PermissoesFragment());
+                ft.replace(com.jp3dr0.estoquelaboratorio.R.id.fragment_container, new PermissoesFragment());
                 ft.commit();
                 activity.setBackFragment2(true);
 

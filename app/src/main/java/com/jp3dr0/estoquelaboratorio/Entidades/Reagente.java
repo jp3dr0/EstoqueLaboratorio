@@ -1,37 +1,45 @@
-package com.jp3dr0.estoquelaboratorio;
+package com.jp3dr0.estoquelaboratorio.Entidades;
 
 import android.content.Context;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.jp3dr0.estoquelaboratorio.Api;
 import com.mikepenz.fastadapter.commons.utils.FastAdapterUIUtils;
 import com.mikepenz.fastadapter.items.AbstractItem;
 import com.mikepenz.materialize.util.UIUtils;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
-public class Reagente extends AbstractItem<Reagente, Reagente.ViewHolder> {
-    int idReagente;
+public class Reagente extends AbstractItem<Reagente, Reagente.ViewHolder> implements Parcelable{
+    Integer idReagente;
     String imgReagente;
-    int qtd_estoque_Reagente_lacrado;
-    int qtd_estoque_Reagente_aberto;
-    int qtd_estoque_Reagente_total;
+    Integer qtd_estoque_Reagente_lacrado;
+    Integer qtd_estoque_Reagente_aberto;
+    Integer qtd_estoque_Reagente_total;
     String nomeReagente;
     String comentarioReagente;
-    int ClassificacaoReagente;
-    int valorCapacidadeReagente;
-    int UnidadeReagente;
+    Integer ClassificacaoReagente;
+    Integer valorCapacidadeReagente;
+    Integer UnidadeReagente;
+
+    public Reagente(String imgReagente, String nomeReagente, String comentarioReagente) {
+        this.imgReagente = imgReagente;
+        this.nomeReagente = nomeReagente;
+        this.comentarioReagente = comentarioReagente;
+    }
 
     public Reagente(String imgReagente, String nomeReagente) {
         this.imgReagente = imgReagente;
@@ -41,7 +49,7 @@ public class Reagente extends AbstractItem<Reagente, Reagente.ViewHolder> {
     public Reagente() {
     }
 
-    public Reagente(int idReagente, String imgReagente, int qtd_estoque_Reagente_lacrado, int qtd_estoque_Reagente_aberto, int qtd_estoque_Reagente_total, String nomeReagente, String comentarioReagente, int classificacaoReagente, int valorCapacidadeReagente, int unidadeReagente) {
+    public Reagente(Integer idReagente, String imgReagente, Integer qtd_estoque_Reagente_lacrado, Integer qtd_estoque_Reagente_aberto, Integer qtd_estoque_Reagente_total, String nomeReagente, String comentarioReagente, Integer classificacaoReagente, Integer valorCapacidadeReagente, Integer unidadeReagente) {
         this.idReagente = idReagente;
         this.imgReagente = imgReagente;
         this.qtd_estoque_Reagente_lacrado = qtd_estoque_Reagente_lacrado;
@@ -146,30 +154,27 @@ public class Reagente extends AbstractItem<Reagente, Reagente.ViewHolder> {
 
     @Override
     public int getLayoutRes() {
-        return R.layout.item;
+        return com.jp3dr0.estoquelaboratorio.R.layout.item;
     }
 
     @Override
-    public void bindView(Reagente.ViewHolder holder, List<Object> payloads) {
+    public void bindView(final Reagente.ViewHolder holder, List<Object> payloads) {
         super.bindView(holder, payloads);
+
+        Log.d("LOG", "bindView Reagente");
 
         Context ctx = holder.itemView.getContext();
 
-        Retrofit retrofit = new Retrofit.Builder().baseUrl("http://professorlindo.000webhostapp.com/estoque_lab/index.php/").addConverterFactory(GsonConverterFactory.create()).build();
-
-        Api api = retrofit.create(Api.class);
-
-        holder.title.setText(nomeReagente);
-
-        String desc;
-        final List temp = new ArrayList<String>();
+        Api api = Api.retrofit.create(Api.class);
 
         final Call<List<Unidade>> request = api.getUnidade(UnidadeReagente);
         request.enqueue(new Callback<List<Unidade>>() {
             @Override
             public void onResponse(Call<List<Unidade>> call, Response<List<Unidade>> response) {
                 Unidade obj = response.body().get(0);
-                temp.add(obj.nomeUnidade);
+                String unidade = obj.nomeUnidade;
+                holder.desc.setText(valorCapacidadeReagente + unidade);
+                Log.d("LOG", "Unidade = " + unidade);
             }
 
             @Override
@@ -178,27 +183,16 @@ public class Reagente extends AbstractItem<Reagente, Reagente.ViewHolder> {
             }
         });
 
-        final Call<List<Classificacao>> request2 = api.getClassificacao(ClassificacaoReagente);
-        request2.enqueue(new Callback<List<Classificacao>>() {
-            @Override
-            public void onResponse(Call<List<Classificacao>> call, Response<List<Classificacao>> response) {
-                Classificacao obj = response.body().get(0);
-                temp.add(obj.nomeClassificacao);
-            }
+        //String desc = classificacao + " - " + valorCapacidadeReagente + unidade;
 
-            @Override
-            public void onFailure(Call<List<Classificacao>> call, Throwable t) {
-
-            }
-        });
-
-        desc = temp.get(0) + " - " + valorCapacidadeReagente + temp.get(1);
-        holder.desc.setText(desc);
-        holder.featuredImage.setImageBitmap(null);
-
+        holder.title.setText(nomeReagente);
+        //holder.desc.setText(desc);
+        //holder.featuredImage.setImageBitmap(null);
+        holder.featuredImage.setVisibility(View.GONE);
         //set the background for the item
-        int color = UIUtils.getThemeColor(ctx, R.attr.colorPrimary);
+        int color = UIUtils.getThemeColor(ctx, com.jp3dr0.estoquelaboratorio.R.attr.colorPrimary);
         holder.card_layout.setForeground(FastAdapterUIUtils.getSelectablePressedBackground(ctx, FastAdapterUIUtils.adjustAlpha(color, 100), 50, true));
+
     }
 
     @Override
@@ -211,6 +205,8 @@ public class Reagente extends AbstractItem<Reagente, Reagente.ViewHolder> {
         holder.desc.setText(null);
     }
 
+
+
     public class ViewHolder extends RecyclerView.ViewHolder{
         public ImageView featuredImage;
         public TextView title;
@@ -221,11 +217,11 @@ public class Reagente extends AbstractItem<Reagente, Reagente.ViewHolder> {
         public ViewHolder(View itemView) {
             super(itemView);
 
-            this.featuredImage = (ImageView) itemView.findViewById(R.id.featuredImage);
-            this.title = (TextView) itemView.findViewById(R.id.title);
-            this.desc = (TextView) itemView.findViewById(R.id.desc);
-            this.btnLink = (Button) itemView.findViewById(R.id.btnLink);
-            this.card_layout = (ConstraintLayout) itemView.findViewById(R.id.card_layout);
+            this.featuredImage = (ImageView) itemView.findViewById(com.jp3dr0.estoquelaboratorio.R.id.featuredImage);
+            this.title = (TextView) itemView.findViewById(com.jp3dr0.estoquelaboratorio.R.id.title);
+            this.desc = (TextView) itemView.findViewById(com.jp3dr0.estoquelaboratorio.R.id.desc);
+            this.btnLink = (Button) itemView.findViewById(com.jp3dr0.estoquelaboratorio.R.id.btnLink);
+            this.card_layout = (ConstraintLayout) itemView.findViewById(com.jp3dr0.estoquelaboratorio.R.id.card_layout);
 
             //optimization to preset the correct height for our device
             int screenWidth = itemView.getContext().getResources().getDisplayMetrics().widthPixels;
@@ -240,4 +236,48 @@ public class Reagente extends AbstractItem<Reagente, Reagente.ViewHolder> {
             featuredImage.setLayoutParams(lp);
         }
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeValue(this.idReagente);
+        dest.writeString(this.imgReagente);
+        dest.writeValue(this.qtd_estoque_Reagente_lacrado);
+        dest.writeValue(this.qtd_estoque_Reagente_aberto);
+        dest.writeValue(this.qtd_estoque_Reagente_total);
+        dest.writeString(this.nomeReagente);
+        dest.writeString(this.comentarioReagente);
+        dest.writeValue(this.ClassificacaoReagente);
+        dest.writeValue(this.valorCapacidadeReagente);
+        dest.writeValue(this.UnidadeReagente);
+    }
+
+    protected Reagente(Parcel in) {
+        this.idReagente = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.imgReagente = in.readString();
+        this.qtd_estoque_Reagente_lacrado = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.qtd_estoque_Reagente_aberto = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.qtd_estoque_Reagente_total = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.nomeReagente = in.readString();
+        this.comentarioReagente = in.readString();
+        this.ClassificacaoReagente = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.valorCapacidadeReagente = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.UnidadeReagente = (Integer) in.readValue(Integer.class.getClassLoader());
+    }
+
+    public static final Creator<Reagente> CREATOR = new Creator<Reagente>() {
+        @Override
+        public Reagente createFromParcel(Parcel source) {
+            return new Reagente(source);
+        }
+
+        @Override
+        public Reagente[] newArray(int size) {
+            return new Reagente[size];
+        }
+    };
 }

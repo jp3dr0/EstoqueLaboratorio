@@ -1,18 +1,18 @@
-package com.jp3dr0.estoquelaboratorio;
+package com.jp3dr0.estoquelaboratorio.Fragments;
 
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.Toast;
 
+import com.jp3dr0.estoquelaboratorio.Entidades.Item;
+import com.jp3dr0.estoquelaboratorio.Entidades.Reagente;
+import com.jp3dr0.estoquelaboratorio.Entidades.Vidraria;
+import com.jp3dr0.estoquelaboratorio.MainActivity;
 import com.mikepenz.fastadapter.FastAdapter;
 import com.mikepenz.fastadapter.IAdapter;
 import com.mikepenz.fastadapter.IItem;
@@ -27,15 +27,16 @@ public class AbstractFragment extends Fragment {
     RecyclerView recyclerView;
     ItemAdapter itemAdapter;
     FastAdapter fastAdapter;
+    MainActivity activity;
 
     public AbstractFragment() {
-        // Required empty public constructor
+        activity = (MainActivity) getActivity();
     }
 
     private boolean trocarView = false;
 
-    public void configurarToolbar(final List list){
-        MainActivity activity = (MainActivity) getActivity();
+    public void configurarToolbar(final RecyclerView recyclerView, final List list, final String escolha){
+        activity = (MainActivity) getActivity();
         Toolbar toolbar = activity.toolbar;
 
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
@@ -46,18 +47,18 @@ public class AbstractFragment extends Fragment {
                     case android.R.id.home:
                         //finish();
                         break;
-                    case R.id.action_search:
+                    case com.jp3dr0.estoquelaboratorio.R.id.action_search:
                         Toast.makeText(getContext(), "search", Toast.LENGTH_SHORT).show();
                         break;
-                    case R.id.action_change_recycler:
+                    case com.jp3dr0.estoquelaboratorio.R.id.action_change_recycler:
                         trocarView = !trocarView;
                         if (trocarView) {
-                            item.setIcon(R.drawable.ic_view_quilt_black_24dp);
+                            item.setIcon(com.jp3dr0.estoquelaboratorio.R.drawable.ic_view_quilt_black_24dp);
                         }
                         else {
-                            item.setIcon(R.drawable.ic_view_stream_black_24dp);
+                            item.setIcon(com.jp3dr0.estoquelaboratorio.R.drawable.ic_view_stream_black_24dp);
                         }
-                        configurarRecyclerView(recyclerView, list);
+                        configurarRecyclerView(recyclerView, list, escolha);
                         break;
                 }
                 return true;
@@ -65,7 +66,7 @@ public class AbstractFragment extends Fragment {
         });
     }
 
-    public void configurarRecyclerView (RecyclerView rv, List list){
+    public void configurarRecyclerView (RecyclerView rv, List list, final String escolha){
         this.recyclerView = rv;
 
         trocarLayoutManager();
@@ -85,13 +86,26 @@ public class AbstractFragment extends Fragment {
         //configure our mFastAdapter
         //as we provide id's for the items we want the hasStableIds enabled to speed up things
         fastAdapter.withSelectable(true);
-        fastAdapter.withMultiSelect(true);
-        fastAdapter.withSelectOnLongClick(true);
+        //fastAdapter.withMultiSelect(true);
+        //fastAdapter.withSelectOnLongClick(true);
 
         fastAdapter.withOnClickListener(new OnClickListener() {
             @Override
             public boolean onClick(View v, IAdapter adapter, IItem item, int position) {
-                Toast.makeText(getContext(), "Clique na posição " + position, Toast.LENGTH_SHORT).show();
+                activity = (MainActivity) getActivity();
+                String fragment_atual = activity.currentFragment;
+                switch (escolha){
+                    case "Reagente":
+                        Reagente reagente = (Reagente) itemAdapter.getAdapterItem(position);
+                        Toast.makeText(getContext(), "Clique na posição " + position + " no fragment " + fragment_atual + " nome do item: " + reagente.getNomeReagente(), Toast.LENGTH_SHORT).show();
+
+                        
+                        break;
+                    case "Vidraria":
+                        Vidraria vidraria = (Vidraria) itemAdapter.getAdapterItem(position);
+                        Toast.makeText(getContext(), "Clique na posição " + position + " no fragment " + fragment_atual + " nome do item: " + vidraria.getNomeVidraria(), Toast.LENGTH_SHORT).show();
+                        break;
+                }
                 return true;
             }
         });

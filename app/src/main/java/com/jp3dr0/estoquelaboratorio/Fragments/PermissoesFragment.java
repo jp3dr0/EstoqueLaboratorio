@@ -1,4 +1,4 @@
-package com.jp3dr0.estoquelaboratorio;
+package com.jp3dr0.estoquelaboratorio.Fragments;
 
 import android.content.Context;
 import android.net.Uri;
@@ -29,9 +29,9 @@ public class PermissoesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_permissoes, container, false);
-        btnConcluido = (Button) view.findViewById(R.id.btnConcluido);
-        radio = (RadioGroup) view.findViewById(R.id.radio);
+        View view = inflater.inflate(com.jp3dr0.estoquelaboratorio.R.layout.fragment_permissoes, container, false);
+        btnConcluido = (Button) view.findViewById(com.jp3dr0.estoquelaboratorio.R.id.btnConcluido);
+        radio = (RadioGroup) view.findViewById(com.jp3dr0.estoquelaboratorio.R.id.radio);
         btnConcluido.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -39,13 +39,13 @@ public class PermissoesFragment extends Fragment {
                 int selectedId = radio.getCheckedRadioButtonId();
 
                 switch(selectedId) {
-                    case R.id.radioAluno:
+                    case com.jp3dr0.estoquelaboratorio.R.id.radioAluno:
                         Toast.makeText(getContext(), "ALUNO", Toast.LENGTH_SHORT).show();
                         break;
-                    case R.id.radioProfessor:
+                    case com.jp3dr0.estoquelaboratorio.R.id.radioProfessor:
                         Toast.makeText(getContext(), "PROFESSOR", Toast.LENGTH_SHORT).show();
                         break;
-                    case R.id.radioTecnico:
+                    case com.jp3dr0.estoquelaboratorio.R.id.radioTecnico:
                         Toast.makeText(getContext(), "TECNICO", Toast.LENGTH_SHORT).show();
                         break;
                 }

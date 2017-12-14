@@ -1,8 +1,20 @@
 package com.jp3dr0.estoquelaboratorio;
 
+import com.jp3dr0.estoquelaboratorio.Entidades.Classificacao;
+import com.jp3dr0.estoquelaboratorio.Entidades.Reagente;
+import com.jp3dr0.estoquelaboratorio.Entidades.Tamanho;
+import com.jp3dr0.estoquelaboratorio.Entidades.Unidade;
+import com.jp3dr0.estoquelaboratorio.Entidades.Usuario;
+import com.jp3dr0.estoquelaboratorio.Entidades.Vidraria;
+
 import java.util.List;
 
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -12,6 +24,16 @@ import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface Api {
+
+    //public static final Retrofit retrofit = new Retrofit.Builder().baseUrl("http://10.0.2.2/estoquelab/index.php/").addConverterFactory(GsonConverterFactory.create()).build();
+
+    public static final Retrofit retrofit = new Retrofit.Builder().baseUrl("http://professorlindo.000webhostapp.com/estoque_lab/index.php/").addConverterFactory(GsonConverterFactory.create()).build();
+
+    @GET("reagente")
+    Call<ResponseBody> getReagentesx();
+
+    @POST("prefix/user/{login}")
+    Call<ResponseBody> login(@Path("login") String postfix, @Body RequestBody params);
 
     @GET("classificacao/{id}")
     Call<List<Classificacao>> getClassificacao(@Path("id") int idClassificacao);

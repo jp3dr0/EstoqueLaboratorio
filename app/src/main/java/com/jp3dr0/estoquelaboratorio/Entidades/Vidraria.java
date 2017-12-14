@@ -1,36 +1,36 @@
-package com.jp3dr0.estoquelaboratorio;
+package com.jp3dr0.estoquelaboratorio.Entidades;
 
 import android.content.Context;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
+import com.jp3dr0.estoquelaboratorio.Api;
 import com.mikepenz.fastadapter.commons.utils.FastAdapterUIUtils;
 import com.mikepenz.fastadapter.items.AbstractItem;
 import com.mikepenz.materialize.util.UIUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
-public class Vidraria extends AbstractItem<Vidraria, Vidraria.ViewHolder>{
-    int idVidraria;
+public class Vidraria extends AbstractItem<Vidraria, Vidraria.ViewHolder> implements Parcelable{
+    Integer idVidraria;
     String imgVidraria;
-    int qtd_estoque_Vidraria;
+    Integer qtd_estoque_Vidraria;
     String nomeVidraria;
     String comentarioVidraria;
-    int valorCapacidadeVidraria;
-    int tamanhoCapacidadeVidraria;
-    int UnidadeVidraria;
+    Integer valorCapacidadeVidraria;
+    Integer tamanhoCapacidadeVidraria;
+    Integer UnidadeVidraria;
 
     public Vidraria(String imgVidraria, String nomeVidraria) {
         this.imgVidraria = imgVidraria;
@@ -40,7 +40,7 @@ public class Vidraria extends AbstractItem<Vidraria, Vidraria.ViewHolder>{
     public Vidraria() {
     }
 
-    public Vidraria(int idVidraria, String imgVidraria, int qtd_estoque_Vidraria, String nomeVidraria, String comentarioVidraria, int valorCapacidadeVidraria, int tamanhoCapacidadeVidraria, int unidadeVidraria) {
+    public Vidraria(Integer idVidraria, String imgVidraria, Integer qtd_estoque_Vidraria, String nomeVidraria, String comentarioVidraria, Integer valorCapacidadeVidraria, Integer tamanhoCapacidadeVidraria, Integer unidadeVidraria) {
         this.idVidraria = idVidraria;
         this.imgVidraria = imgVidraria;
         this.qtd_estoque_Vidraria = qtd_estoque_Vidraria;
@@ -127,30 +127,28 @@ public class Vidraria extends AbstractItem<Vidraria, Vidraria.ViewHolder>{
 
     @Override
     public int getLayoutRes() {
-        return R.layout.item;
+        return com.jp3dr0.estoquelaboratorio.R.layout.item;
     }
 
     @Override
-    public void bindView(Vidraria.ViewHolder holder, List<Object> payloads) {
+    public void bindView(final Vidraria.ViewHolder holder, List<Object> payloads) {
         super.bindView(holder, payloads);
+
+        Log.d("LOG", "bindView Vidraria");
 
         Context ctx = holder.itemView.getContext();
 
-        Retrofit retrofit = new Retrofit.Builder().baseUrl("http://professorlindo.000webhostapp.com/estoque_lab/index.php/").addConverterFactory(GsonConverterFactory.create()).build();
+        Api api = Api.retrofit.create(Api.class);
 
-        Api api = retrofit.create(Api.class);
-
-        holder.title.setText(nomeVidraria);
-
-        String desc;
-        final List temp = new ArrayList<String>();
-        if(tamanhoCapacidadeVidraria == 0){
+        if(UnidadeVidraria != null){
             final Call<List<Unidade>> request = api.getUnidade(UnidadeVidraria);
             request.enqueue(new Callback<List<Unidade>>() {
                 @Override
                 public void onResponse(Call<List<Unidade>> call, Response<List<Unidade>> response) {
                     Unidade obj = response.body().get(0);
-                    temp.add(obj.nomeUnidade);
+                    String unidade = obj.nomeUnidade;
+                    holder.desc.setText(valorCapacidadeVidraria + unidade);
+                    Log.d("LOG", "Unidade = " + unidade);
                 }
 
                 @Override
@@ -158,15 +156,15 @@ public class Vidraria extends AbstractItem<Vidraria, Vidraria.ViewHolder>{
 
                 }
             });
-            desc = valorCapacidadeVidraria + (String)temp.get(0);
         }
-        else {
+        else if (tamanhoCapacidadeVidraria != null){
             final Call<List<Tamanho>> request = api.getTamanho(tamanhoCapacidadeVidraria);
             request.enqueue(new Callback<List<Tamanho>>() {
                 @Override
                 public void onResponse(Call<List<Tamanho>> call, Response<List<Tamanho>> response) {
                     Tamanho obj = response.body().get(0);
-                    temp.add(obj.nomeTamanho);
+                    String tamanho = obj.nomeTamanho;
+                    holder.desc.setText(tamanho);
                 }
 
                 @Override
@@ -174,13 +172,14 @@ public class Vidraria extends AbstractItem<Vidraria, Vidraria.ViewHolder>{
 
                 }
             });
-            desc = (String) temp.get(0);
         }
-        holder.desc.setText(desc);
-        holder.featuredImage.setImageBitmap(null);
 
+        holder.title.setText(nomeVidraria);
+        //holder.desc.setText(desc);
+        //holder.featuredImage.setImageBitmap(null);
+        holder.featuredImage.setVisibility(View.GONE);
         //set the background for the item
-        int color = UIUtils.getThemeColor(ctx, R.attr.colorPrimary);
+        int color = UIUtils.getThemeColor(ctx, com.jp3dr0.estoquelaboratorio.R.attr.colorPrimary);
         holder.card_layout.setForeground(FastAdapterUIUtils.getSelectablePressedBackground(ctx, FastAdapterUIUtils.adjustAlpha(color, 100), 50, true));
     }
 
@@ -204,11 +203,11 @@ public class Vidraria extends AbstractItem<Vidraria, Vidraria.ViewHolder>{
         public ViewHolder(View itemView) {
             super(itemView);
 
-            this.featuredImage = (ImageView) itemView.findViewById(R.id.featuredImage);
-            this.title = (TextView) itemView.findViewById(R.id.title);
-            this.desc = (TextView) itemView.findViewById(R.id.desc);
-            this.btnLink = (Button) itemView.findViewById(R.id.btnLink);
-            this.card_layout = (ConstraintLayout) itemView.findViewById(R.id.card_layout);
+            this.featuredImage = (ImageView) itemView.findViewById(com.jp3dr0.estoquelaboratorio.R.id.featuredImage);
+            this.title = (TextView) itemView.findViewById(com.jp3dr0.estoquelaboratorio.R.id.title);
+            this.desc = (TextView) itemView.findViewById(com.jp3dr0.estoquelaboratorio.R.id.desc);
+            this.btnLink = (Button) itemView.findViewById(com.jp3dr0.estoquelaboratorio.R.id.btnLink);
+            this.card_layout = (ConstraintLayout) itemView.findViewById(com.jp3dr0.estoquelaboratorio.R.id.card_layout);
 
             //optimization to preset the correct height for our device
             int screenWidth = itemView.getContext().getResources().getDisplayMetrics().widthPixels;
@@ -223,4 +222,44 @@ public class Vidraria extends AbstractItem<Vidraria, Vidraria.ViewHolder>{
             featuredImage.setLayoutParams(lp);
         }
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeValue(this.idVidraria);
+        dest.writeString(this.imgVidraria);
+        dest.writeValue(this.qtd_estoque_Vidraria);
+        dest.writeString(this.nomeVidraria);
+        dest.writeString(this.comentarioVidraria);
+        dest.writeValue(this.valorCapacidadeVidraria);
+        dest.writeValue(this.tamanhoCapacidadeVidraria);
+        dest.writeValue(this.UnidadeVidraria);
+    }
+
+    protected Vidraria(Parcel in) {
+        this.idVidraria = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.imgVidraria = in.readString();
+        this.qtd_estoque_Vidraria = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.nomeVidraria = in.readString();
+        this.comentarioVidraria = in.readString();
+        this.valorCapacidadeVidraria = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.tamanhoCapacidadeVidraria = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.UnidadeVidraria = (Integer) in.readValue(Integer.class.getClassLoader());
+    }
+
+    public static final Creator<Vidraria> CREATOR = new Creator<Vidraria>() {
+        @Override
+        public Vidraria createFromParcel(Parcel source) {
+            return new Vidraria(source);
+        }
+
+        @Override
+        public Vidraria[] newArray(int size) {
+            return new Vidraria[size];
+        }
+    };
 }

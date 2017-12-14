@@ -12,14 +12,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.jp3dr0.estoquelaboratorio.Entidades.Usuario;
+import com.jp3dr0.estoquelaboratorio.Fragments.CadastrarFragment;
+
 import java.util.List;
 import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -80,9 +81,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        Retrofit retrofit = new Retrofit.Builder().baseUrl("http://professorlindo.000webhostapp.com/estoque_lab/index.php/").addConverterFactory(GsonConverterFactory.create()).build();
-
-        api = retrofit.create(Api.class);
+        api = Api.retrofit.create(Api.class);
 
         btnEntrar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,7 +91,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 if(login.equals("admin") && (senha.equals("admin"))){
                     Toast.makeText(getApplicationContext(), "Entrando na MainActivity...", Toast.LENGTH_LONG).show();
-                    Intent it = new Intent(getApplicationContext(), MainActivity.class);
+                    Intent it = new Intent(getApplicationContext(), PrincipalActivity.class);
                     startActivity(it);
                 }
 
@@ -100,6 +99,7 @@ public class LoginActivity extends AppCompatActivity {
                 request.enqueue(new Callback<List<Usuario>>() {
                     @Override
                     public void onResponse(Call<List<Usuario>> call, Response<List<Usuario>> response) {
+                        //Log.d("LOG", "pqpp");
                         int code = response.code();
                         Toast.makeText(getApplicationContext(), "COde: " + code, Toast.LENGTH_LONG).show();
                         if(code == 423){
@@ -117,7 +117,7 @@ public class LoginActivity extends AppCompatActivity {
                                 }
                                 if(achou){
                                     Toast.makeText(getApplicationContext(), "Entrando na MainActivity...", Toast.LENGTH_LONG).show();
-                                    Intent it = new Intent(getApplicationContext(), PrincipalActivity.class);
+                                    Intent it = new Intent(getApplicationContext(), MainActivity.class);
                                     startActivity(it);
                                 }
                                 else {

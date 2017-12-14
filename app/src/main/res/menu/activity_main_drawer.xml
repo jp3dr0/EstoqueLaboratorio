@@ -49,9 +49,9 @@
             android:id="@+id/nav_reagentes"
             android:title="Estoque Reagentes" />
     </group>
-
+    <!--
     <item
         android:id="@+id/nav_sair"
         android:title="Sair" />
-
+    -->
 </menu>

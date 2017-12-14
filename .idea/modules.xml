@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/EstoqueLaboratorio.iml" filepath="$PROJECT_DIR$/.idea/EstoqueLaboratorio.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/el.iml" filepath="$PROJECT_DIR$/el.iml" />
+      <module fileurl="file://C:\Users\joaop\AndroidStudioProjects\EstoqueLaboratorio\el.iml" filepath="C:\Users\joaop\AndroidStudioProjects\EstoqueLaboratorio\el.iml" />
     </modules>
   </component>
 </project>

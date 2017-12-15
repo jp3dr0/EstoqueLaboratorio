@@ -25,6 +25,7 @@
                 android:layout_height="match_parent">
 
                 <TextView
+                    android:clickable="true"
                     android:onClick="onClickAdicionarItem"
                     android:id="@+id/tvAdicionarItem"
                     android:layout_width="wrap_content"

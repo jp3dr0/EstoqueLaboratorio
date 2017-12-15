@@ -23,7 +23,8 @@
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme" />
-        <activity android:name=".ReagenteActivity"></activity>
+        <activity android:name=".ReagenteActivity" />
+        <activity android:name=".VidrariaActivity"></activity>
     </application>
 
 </manifest>

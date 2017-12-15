@@ -191,7 +191,7 @@ public class Reagente extends AbstractItem<Reagente, Reagente.ViewHolder> implem
         holder.featuredImage.setVisibility(View.GONE);
         //set the background for the item
         int color = UIUtils.getThemeColor(ctx, com.jp3dr0.estoquelaboratorio.R.attr.colorPrimary);
-        holder.card_layout.setForeground(FastAdapterUIUtils.getSelectablePressedBackground(ctx, FastAdapterUIUtils.adjustAlpha(color, 100), 50, true));
+        //holder.card_layout.setForeground(FastAdapterUIUtils.getSelectablePressedBackground(ctx, FastAdapterUIUtils.adjustAlpha(color, 100), 50, true));
 
     }
 

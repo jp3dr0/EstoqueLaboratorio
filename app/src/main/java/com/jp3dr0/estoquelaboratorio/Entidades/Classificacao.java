@@ -5,6 +5,6 @@ package com.jp3dr0.estoquelaboratorio.Entidades;
  */
 
 public class Classificacao {
-    int idClassificacao;
-    String nomeClassificacao;
+    public int idClassificacao;
+    public String nomeClassificacao;
 }

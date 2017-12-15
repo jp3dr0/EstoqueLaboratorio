@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.jp3dr0.estoquelaboratorio.ReagenteActivity">
+    tools:context="com.jp3dr0.estoquelaboratorio.VidrariaActivity">
 
     <android.support.v7.widget.Toolbar
         app:titleTextColor="#ffffff"
@@ -36,24 +36,26 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="64dp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.501"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/qtdAberto"
+            android:id="@+id/qtd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.501"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/nome" />
 
         <TextView
-            android:id="@+id/qtdLacrado"
+            android:id="@+id/tamanho"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
@@ -61,29 +63,7 @@
             android:layout_marginTop="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/qtdAberto" />
-
-        <TextView
-            android:id="@+id/qtdTotal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/qtdLacrado" />
-
-        <TextView
-            android:id="@+id/classificacao"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/qtdTotal" />
+            app:layout_constraintTop_toBottomOf="@+id/qtd" />
 
         <TextView
             android:id="@+id/valor"
@@ -94,7 +74,7 @@
             android:layout_marginTop="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/classificacao" />
+            app:layout_constraintTop_toBottomOf="@+id/tamanho" />
 
         <TextView
             android:id="@+id/unidade"
@@ -135,5 +115,7 @@
         app:layout_constraintVertical_bias="0.0">
 
     </android.support.constraint.ConstraintLayout>
+
+
 
 </android.support.constraint.ConstraintLayout>

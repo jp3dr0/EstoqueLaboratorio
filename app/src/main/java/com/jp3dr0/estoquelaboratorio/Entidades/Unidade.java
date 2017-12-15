@@ -5,7 +5,7 @@ package com.jp3dr0.estoquelaboratorio.Entidades;
  */
 
 public class Unidade {
-    int idUnidade;
-    String nomeUnidade;
+    public int idUnidade;
+    public String nomeUnidade;
 
 }

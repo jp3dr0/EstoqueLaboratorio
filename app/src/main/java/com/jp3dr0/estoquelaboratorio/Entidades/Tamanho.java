@@ -5,6 +5,6 @@ package com.jp3dr0.estoquelaboratorio.Entidades;
  */
 
 public class Tamanho {
-    int idTamanho;
-    String nomeTamanho;
+    public int idTamanho;
+    public String nomeTamanho;
 }

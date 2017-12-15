@@ -1,10 +1,12 @@
 package com.jp3dr0.estoquelaboratorio.Fragments;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -13,6 +15,8 @@ import com.jp3dr0.estoquelaboratorio.Entidades.Item;
 import com.jp3dr0.estoquelaboratorio.Entidades.Reagente;
 import com.jp3dr0.estoquelaboratorio.Entidades.Vidraria;
 import com.jp3dr0.estoquelaboratorio.MainActivity;
+import com.jp3dr0.estoquelaboratorio.ReagenteActivity;
+import com.jp3dr0.estoquelaboratorio.VidrariaActivity;
 import com.mikepenz.fastadapter.FastAdapter;
 import com.mikepenz.fastadapter.IAdapter;
 import com.mikepenz.fastadapter.IItem;
@@ -20,6 +24,7 @@ import com.mikepenz.fastadapter.adapters.ItemAdapter;
 import com.mikepenz.fastadapter.listeners.OnClickListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class AbstractFragment extends Fragment {
@@ -79,6 +84,10 @@ public class AbstractFragment extends Fragment {
         //set our adapters to the RecyclerView
         recyclerView.setAdapter(fastAdapter);
 
+        //ArrayList al = (ArrayList) list;
+        //List listx = Collections.reverse(al);
+        //Log.d("LOG", "Reverse list size: " + listx.size());
+
         //set the items to your ItemAdapter
         itemAdapter.add(list);
         //getItens();
@@ -99,11 +108,17 @@ public class AbstractFragment extends Fragment {
                         Reagente reagente = (Reagente) itemAdapter.getAdapterItem(position);
                         Toast.makeText(getContext(), "Clique na posição " + position + " no fragment " + fragment_atual + " nome do item: " + reagente.getNomeReagente(), Toast.LENGTH_SHORT).show();
 
-                        
+                        Intent intent = new Intent(getContext(), ReagenteActivity.class);
+                        intent.putExtra("obj", reagente);
+                        startActivity(intent);
                         break;
                     case "Vidraria":
                         Vidraria vidraria = (Vidraria) itemAdapter.getAdapterItem(position);
                         Toast.makeText(getContext(), "Clique na posição " + position + " no fragment " + fragment_atual + " nome do item: " + vidraria.getNomeVidraria(), Toast.LENGTH_SHORT).show();
+
+                        Intent it = new Intent(getContext(), VidrariaActivity.class);
+                        it.putExtra("obj", vidraria);
+                        startActivity(it);
                         break;
                 }
                 return true;

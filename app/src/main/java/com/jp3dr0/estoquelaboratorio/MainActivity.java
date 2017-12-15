@@ -56,7 +56,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toolbar3.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
-
                 return true;
             }
         });
@@ -64,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toolbar3.findViewById(R.id.iv_settings).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "Settings pressed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "Iniciar camera", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -103,9 +102,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             @Override
             public void onPageScrollStateChanged(int state) {
-
             }
         });
+    }
+
+    public void onClickAdicionarItem(View v){
+        Toast.makeText(MainActivity.this, "Adicionar item", Toast.LENGTH_SHORT).show();
     }
 
     private void configurarNavigationDrawer(NavigationView navigationView, DrawerLayout drawer){

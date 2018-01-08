@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.jp3dr0.estoquelaboratorio.MainActivity">
+    tools:context="com.jp3dr0.estoquelaboratorio.crud.read.MainActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_gravity="bottom|end"
